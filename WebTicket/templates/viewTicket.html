@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+
+{{ ticketdata }}
+
+{% load static %}
+
+
+
+{{ ticket_type}}
+
+<head>
+    <meta content="Ticketing Project" name="keywords">
+    <meta content="Ticketing Project" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <title>
+		{% block title %} Ticket Status {% endblock %}
+    </title>
+    
+</head>
+
+{% block content %}
+<link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+<body class="form-v5">
+	<div class="page-content">
+		<div class="form-v5-content">
+			{% for i in ticketdata %}
+				<form class="form-detail" action="#" method="post">
+					{% csrf_token %}
+					<h2>Update Ticket</h2>
+					<div class="form-row">
+						<label for="full-name">Ticket Title</label>
+						<input type="text" name="title" id="title" class="input-text" placeholder="Title" value="{{ i.title }}" required>
+						<!-- <i class="fas fa-user"></i> --> 
+					</div>
+					<div class="form-row">
+						<label for="your-email">Description</label>
+						<textarea style="text-align: left; width:95%; margin:0" class="input-text"  
+						id="description"
+						name="description"
+						placeholder="Description" required>
+						{{ i.description }}
+						</textarea> 
+						<!-- required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}"> --> 
+						<!-- <i class="fas fa-envelope "></i> -->
+					</div>
+
+					<div class="form-row">
+						<br/>
+						<label style="float: left;"> Ticket Type </label>
+						<select class="combo" style="float: left; width:80%;" name="ticketTypeID">
+							{% for type in ticket_type %}
+								<option value="{{ type.typeID }}" selected="{{ i.ticketTypeID }}">{{ type.name}}</option>
+							{% endfor %}
+
+						</select>
+					</div>
+
+					<div >
+						<input type="submit" name="register" class="register" value="Update">
+					</div>
+				</form>
+			{% endfor %}
+		</div>
+	</div>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+{% endblock %}

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% load static %}
+
+{{data }}
+{{ ticketstat }}
+{{ ticketType }}
+
+<html lang="en">
+    <head>
+            
+      <meta charset="utf-8" content="initial-scale=1, maximum-scale=1,
+      user-scalable=0" name="viewport" />
+      <meta name="viewport" content="width=device-width" />
+          <title>
+            {% block title %} Ticket Status {% endblock %}
+          </title>
+        
+    </head>
+</html>
+
+{% block content %}
+  <link href="{% static 'css/register.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/errormessage.css' %}" rel="stylesheet" type="text/css">
+
+  <!-- Datatable plugin CSS file -->
+  <link rel="stylesheet" href=
+  "https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
+
+  <!-- jQuery library file -->
+  <script type="text/javascript" 
+    src="https://code.jquery.com/jquery-3.5.1.js">
+  </script>
+        
+  <!-- Datatable plugin JS library file -->
+  <script type="text/javascript" src=
+      "https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js">
+  </script>
+      
+  <!-- Load the Pagination below-->
+  <script>
+
+    /* Initialization of datatable */
+    $(document).ready(function() {
+        $('#myTable').DataTable({ });
+    });
+  </script> 
+
+  <!-- keypress event on TExtbox field to filter the table  -->
+<!--     <script>
+      function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("opt");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+      
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[3];
+          if (td) {
+            txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+      }
+      </script>  -->
+
+  <div class="row">
+      <div class="col-lg-3 col-md-6">
+      </div> 
+    
+      <div class="col-lg-3 col-md-6">
+        <div class="card">
+          <div class="card-body" style="text-align: center;">
+              <div class="stat-widget-five">
+                  <div class="stat-icon dib flat-color-1">
+                      <!-- <i class="fa fa-cart-plus"></i>-->
+                      <img href="" src=" {% static 'theme/assets/open.png' %}" id="open" alt="User Icon" />
+                  </div>
+                  <div class="stat-content">
+                      <div class="text-left dib">
+                          <div class="stat-text">
+                            {% for open in openrec %}
+                              <span class="count"> {{open.open}}</span>
+
+                            {% endfor %}
+                          </div>
+                          <div class="stat-heading">OPEN</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>   
+
+      <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body" style="text-align: center;">
+                <div class="stat-widget-five">
+                    <div class="stat-icon dib flat-color-2">
+                      <img href="" src=" {% static 'theme/assets/close.png' %}" id="close" alt="User Icon" />
+                        <!--<i class="fa fa-product-hunt"></i>-->
+                    </div>
+                    <div class="stat-content">
+                        <div class="text-left dib">
+                            <div class="stat-text">
+                              {% for close in closerec %}
+                                <span class="count">{{ close.close }}</span>
+                              {% endfor %}
+                              </div>
+                            <div class="stat-heading">CLOSE</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>  
+
+      <div class="col-lg-3 col-md-6">
+        
+      </div>   
+  </div>
+        
+  <div> 
+    {% if error_message %}
+      <div class="alert">
+      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+      <p><strong>Info : </strong> {{ error_message }} </p>
+      </div>
+    {% endif %}
+
+      <table id="myTable" class="table table-bordered table-sm" cellspacing="0">
+                      <!-- table-striped -->
+        <thead >
+          <tr >
+            <th class="th-sm">Title
+      
+            </th>
+            <!-- <th class="th-sm">
+              Decription
+            </th> --> 
+            <th class="th-sm">
+              Category
+            </th>
+            <th class="th-sm">Date Created
+      
+            </th>
+            <th class="th-sm">
+              Assign User
+            </th>
+            <th class="th-sm">
+              Start Date
+            </th>
+            <th class="th-sm">
+              Target Date
+            </th>
+            <th class="th-sm">Priority
+      
+            </th>
+            <th class="th-sm">Status
+      
+            </th>
+            <th class="th-sm" >
+
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for m in ticketstat %}
+            <tr>
+              <td>{{m.title}}</td>
+              <!-- <td>{{m.description}}</td> -->
+              <td style="width: 10%;">{{m.Category}}</td>
+              <td style="width:10%;">{{m.nDate}}</td>
+              <td>{{ m.DisplayName }}</td>
+              <td> {{ m.Sdate }}</td>
+              <td> {{ m.Edate }}</td>
+              {% if not m.priorityname %}
+                <td style="background: red ;">{{ m.priorityname }} </td>
+              {% else %}
+                <td>{{ m.priorityname }} </td>
+              {% endif %}
+              <td>{{ m.statusName }}</td>
+              <td >
+                {% for p in data %}
+                  <div class="btn-group">
+                      <div>
+                        <a href="{% url 'viewTicket' ticketID=m.ticketID %}"><img href="" src="{% static 'theme/assets/newupdate.png' %}" id="png" alt="User Icon" /></a>
+                      </div>
+                      <div>
+                        <a href="{% url 'assign' ticketID=m.ticketID  %}"><img href="" src="{% static 'theme/assets/task2.png' %}" id="task" alt="User Icon" /> </a>
+                      </div>
+                      <div>
+                        <a href="{% url 'assigndate' m.ticketID m.assignuserid %}"><img href="" src="{% static 'theme/assets/activity.png' %}" id="startdate" alt="User Icon" /> </a>
+                      </div>
+                      <div>
+                        <a href="{% url 'activity' m.ticketID m.assignuserid m.createdby %}"><img href="" src="{% static 'theme/assets/remarks.png' %}" id="activity" alt="User Icon" /> </a>
+                      </div>
+                  </div>
+                {% endfor %}
+              </td>                         
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+                        
+                    
+  </div>
+
+            
+      
+
+
+  {% endblock %}
+
+

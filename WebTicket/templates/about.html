@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %} About {% endblock %}
+
+{% block meta_description %}
+ Ticketing Project  
+{% endblock %}
+
+{{ data }}
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>
+           Index
+        </title>
+        <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+
+    </head>
+    {% block content %}
+    <body>
+
+        <h1>
+            This is About
+            
+        </h1>
+    {% endblock content %}
+    </body>
+</html>
+

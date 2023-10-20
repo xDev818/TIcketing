@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+
+    <title>
+        {% block title %} Users {% endblock %}
+    </title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+</head>
+
+
+{% block content %}
+
+<div class="container">
+    <div style="text-align:center">
+        <h2>List of Users </h2>
+          {% if messagecontent == "Alert" %}
+            <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <p><strong>Alert : </strong> {{ error_message }} </p>
+            </div>
+            {% endif %}
+    </div>
+    <div class="row">
+        <table id="myTable" class="table table-bordered table-sm" cellspacing="0">
+            <thead>
+                <tr >
+                    <th class="th-sm">UserName</th>
+                    <th class="th-sm">Email</th>
+                    <th class="th-sm">Display name</th>
+                    <th class="th-sm">Department</th>
+                    <th class="th-sm">Position</th>
+                    <th class="th-sm">Users Category</th>
+                    <th class="th-sm">Active </th>
+                    <th class="th-sm">Approved </th>
+                    <th class="th-sm"> </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in listofusers %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td style="width:200x ; "> {{ user.email }}</td>
+                    <td style="width:200x ; "> {{ user.name }}</td>
+                    <td style="width:200x ; "> {{ user.departmentName }}</td>
+                    <td style="width:200x ; "> {{ user.positionName }}</td>
+                    <td style="width:200x ; "> {{ user.userType }}</td>
+                    <td style="width:200x ; "> {{ user.is_Active }}</td>
+                    <td style="width:200x ; "> {{ user.isApproved }}</td>
+                    <td style="width: 50px; ">
+                        <div class="btn-group" style="width: 50px;">
+                            <div>
+                                <a href="{% url 'approveuser' user.id %}">
+                                    <img  src=" {% static 'theme/assets/newupdate.png' %}" id="png" alt="User Icon" />
+                                </a>
+                            </div>
+                            <div>
+                                <a href="{% url 'deactivateuser' user.id %}">
+                                    <img  src="{% static 'theme/assets/delete.png' %}" id="pngdelete" alt="User Icon" />
+                                </a> 
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+
+{% load static %}
+{{ data }}
+
+{{ ticket_type}}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>
+            {% block title %} Ticket {% endblock %}
+        </title>
+
+    </head>
+</html>
+
+{% block content %}
+
+<!-- Datatable plugin CSS file -->
+<link rel="stylesheet" href=
+"https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
+
+  <!-- jQuery library file -->
+  <script type="text/javascript" 
+  src="https://code.jquery.com/jquery-3.5.1.js">
+</script>
+      
+
+<!-- Datatable plugin JS library file -->
+<script type="text/javascript" src=
+    "https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js">
+</script>
+
+<script>
+  /* Initialization of datatable */
+  $(document).ready(function() {
+      $('#myTable').DataTable({ });
+  });
+</script> 
+
+<link href="{% static 'css/department.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/errormessage.css' %}" rel="stylesheet" type="text/css">
+
+    <div class="container">
+        <!-- Display Status -->
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body" style="text-align: center;">
+                        <div class="stat-widget-five">
+                            <div class="stat-icon dib flat-color-1">
+                                <!-- <i class="fa fa-cart-plus"></i>-->
+                                <img href="" src=" {% static 'theme/assets/open.png' %}" id="open" alt="User Icon" />
+                            </div>
+                            <div class="stat-content">
+                                <div class="text-left dib">
+                                    <div class="stat-text">
+                                    {% for open in openrec %}
+                                        <span class="count"> {{open.open}}</span>
+
+                                    {% endfor %}
+                                    </div>
+                                    <div class="stat-heading">With Assigned Support</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="card">
+                    <div class="card-body" style="text-align: center;">
+                        <div class="stat-widget-five">
+                            <div class="stat-icon dib flat-color-2">
+                            <img href="" src=" {% static 'theme/assets/close.png' %}" id="close" alt="User Icon" />
+                                <!--<i class="fa fa-product-hunt"></i>-->
+                            </div>
+                            <div class="stat-content">
+                                <div class="text-left dib">
+                                    <div class="stat-text">
+                                    {% for close in closerec %}
+                                        <span class="count">{{ close.close }}</span>
+                                    {% endfor %}
+                                    </div>
+                                    <div class="stat-heading">No Assigned Support</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Status -->
+
+        <div class="row">
+            <div class="column">
+                <!-- <img src="/w3images/map.jpg" style="width:100%"> --> 
+                <table id="myTable" class="table table-bordered table-sm" cellspacing="0">
+                    <thead>
+                        <tr >
+                          <th class="th-sm">Name</th>
+                            <th class="th-sm">Description</th>
+                            <th class="th-sm">Category</th>
+                            <th class="th-sm"></th>
+                        </tr>
+                    </thead>
+                    {% for ticket in tickets %}
+                    <tbody>
+                        <tr>
+                            <td>{{ ticket.title }}</td>
+                            <td style="width:200x ; "> {{ ticket.description }}
+                            </td>
+                            <td style="width:200x ; "> {{ ticket.name }}
+                            </td>
+                            <td>
+                                <div class="btn-group" style="width: 100px;">
+                                    <div>
+                                        <a href="{% url 'loadticket' ticket.ticketID %}" type="button">
+                                            <img href="" src=" {% static 'theme/assets/newupdate.png' %}" id="png" alt="User Icon" />  
+                                        </a>
+                                        <a href="{% url 'ticketdetails' ticket.ticketID %}" type="button">
+                                            <img href="" src=" {% static 'theme/assets/details.png' %}" id="details" alt="User Icon" />
+                                        </a>
+                                        <a href="{% url 'deleteticket' ticket.ticketID %}" type="button"> 
+                                            <img href="" src=" {% static 'theme/assets/delete.png' %}" id="del" alt="User Icon" />
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="column">
+                <form action="{%url 'updateticket' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="ticketID" name="ticketID" 
+                    {% for i in selected_tickets %}
+                        value="{{ i.ticketID }}"
+
+                    {% endfor %}required>
+                    <div style="text-align:center">
+                        <h2>Create Ticket</h2>
+                        {% if messagecontent == "Alert" %}
+                        <div class="alert">
+                            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                            <p><strong>Alert : </strong> {{ error_message }} </p>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <label for="title" style="float: left;"> Title </label>
+                        <input type="text" name="title" placeholder="Ticket Name" 
+                        {% for i in selected_tickets %}
+                            value="{{ i.title }}"
+                        {% endfor %}required>
+                    
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" placeholder="Description" 
+                    
+                    required>
+                        {% for i in selected_tickets %}
+                            {{ i.description}}
+                       {% endfor %}
+                    </textarea>
+
+                    <label style="float: left;"> Ticket Type </label>
+                        <select class="form-control combo" style=" width:100%;" name="ticketTypeID" required>
+                            {% for type in tickettype %}
+                            <option value="{{ type.typeID }}">{{ type.name}}</option>
+                            {% endfor %}
+                        </select>
+
+                    <input type="submit" value="Submit">
+                    <input type="submit1" value="Delete" readonly>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+
+
+        
+    {% endblock %}
+         

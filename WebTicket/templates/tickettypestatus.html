@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+
+{% load static %}
+
+
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>
+            {% block title %} Ticket Type Status {% endblock %}
+        </title>
+
+          <!-- Datatable plugin CSS file -->
+  <link rel="stylesheet" href=
+  "https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
+
+    <!-- jQuery library file -->
+    <script type="text/javascript" 
+    src="https://code.jquery.com/jquery-3.5.1.js">
+  </script>
+        
+
+  <!-- Datatable plugin JS library file -->
+  <script type="text/javascript" src=
+      "https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js">
+  </script>
+
+
+    </head>
+</html>
+
+{% block content %}
+
+<link href="{% static 'css/department.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/errormessage.css' %}" rel="stylesheet" type="text/css">
+
+
+  <!-- Datatable plugin CSS file -->
+  <link rel="stylesheet" href=
+  "https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
+
+  <!-- jQuery library file -->
+  <script type="text/javascript" 
+    src="https://code.jquery.com/jquery-3.5.1.js">
+  </script>
+        
+  <!-- Datatable plugin JS library file -->
+  <script type="text/javascript" src=
+      "https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js">
+  </script>
+  
+<script>
+    /* Initialization of datatable */
+    $(document).ready(function() {
+        $('#myTable').DataTable({ });
+    });
+</script> 
+
+
+    <div class="container">
+        <div style="text-align:center">
+          <h2>Ticket Status Category</h2>
+          {% if messagecontent == "Alert" %}
+            <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <p><strong>Alert : </strong> {{ error_message }} </p>
+            </div>
+        {% endif %}
+        </div>
+        <div class="row">
+            <div class="column">
+            <!-- <img src="/w3images/map.jpg" style="width:100%"> --> 
+            <table id="myTable" class="table table-bordered table-sm" cellspacing="0">
+                <thead>
+                    <tr >
+                      <th class="th-sm">Name</th>
+                        <th class="th-sm">Description</th>
+                        <th class="th-sm">-</th>
+                    </tr>
+                </thead>
+                {% for tickstattype in tickettypestatus %}
+                <tbody>
+                    <tr>
+                        <td>{{ tickstattype.statusName }}</td>
+                        <td style="width:200x ; "> {{ tickstattype.description }}
+                        </td>
+                        <td>
+                            <div class="btn-group" style="width: 80px;">
+                                <div>
+                                    <a href="{% url 'load_tickettypestatus' tickstattype.statusID %}">
+                                        <img href="" src=" {% static 'theme/assets/newupdate.png' %}" id="png" alt="User Icon" />
+                                    </a>
+                                    <a href="{% url 'deletetickettypestatus' tickstattype.statusID %}">
+                                        <img href="" src=" {% static 'theme/assets/delete.png' %}" id="del" alt="User Icon" />
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+            </div>
+            <div class="column">
+                <form action="{% url 'updatetickettypestatus' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="ticketstatID" name="ticketstatID" 
+                    {% for i in selected_tickettypestatus %}
+                        value="{{ i.statusID }}"
+                    {% endfor %}
+                    >
+                    <label for="tickettypename"> Name</label>
+                    <input type="text" id="tickettypename" name="tickettypename" placeholder="Ticket Type" 
+                    {% for i in selected_tickettypestatus %}
+                    value="{{ i.statusName }}"
+                    {% endfor %}
+                    required>
+                    
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" placeholder="Description" style="height:170px"
+                    required>
+                        {% for i in selected_tickettypestatus %}
+                            {{ i.description}}
+                       {% endfor %}
+                    </textarea>
+
+                    <input type="submit" value="Submit">
+                    <input type="submit1" value="Delete" readonly>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

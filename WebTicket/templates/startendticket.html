@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+
+{% load static %}
+
+
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>
+            {% block title %} Assign Date Ticket {% endblock %}
+        </title>
+        
+  
+    </head>
+</html>
+
+{% block content %}
+
+
+    <link href="{% static 'css/department.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/errormessage.css' %}" rel="stylesheet" type="text/css">
+
+
+
+    <div class="container">
+        <div style="text-align:center">
+            <h2>Activity</h2>
+            {% if messagecontent == "Alert" %}
+                <div class="alert">
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    <p><strong>Alert : </strong> {{ error_message }} </p>
+                </div>
+
+            {% endif %}
+            
+            <form class="form-detail" action="{% url 'updatedateticketdate' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" id="ticketid" name="ticketid" 
+                        value="{{ ticket }}" >
+                <label for="departmentname">Start</label>
+                <input type="date" id="start" name="start" value="{{ startdate }}">
+                <script>
+                    $('#start').val(new Date().toJSON().slice(0,10));
+                </script>
+
+                <label for="description">End</label>
+                <input type="date" id="end" name="end" value="{{ enddate }}">
+                <script>
+                    $('#end').val(new Date().toJSON().slice(0,10));
+                </script>
+
+                <div class="row">
+                    <div class="col">
+
+                        <input type="submit" value="Submit" class="register" name="register">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+{% endblock %}

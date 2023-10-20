@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% load static %}
+
+<head>
+    <meta content="Personal Ticketing Project" name="keywords">
+    <meta content="Ticketing Project Personal" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <title>
+		{% block title %} Assign Ticket {% endblock %}
+    </title>
+   
+</head>
+
+{% block content %}
+     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+    <div class="page-content" id="assignpage">
+        <div class="form-v5-content">
+            {% for i in ticketdata %}
+                <form class="form-detail" action="{% url 'uAssign' i.ticketID %}" method="POST">
+                    {% csrf_token %}
+                    <h2>Assign Ticket</h2>
+                    <div class="form-row">
+                        <br/>
+                        <label style="float: left;"> Assign User </label>
+                        <select class="combo" style="width:100%;" name="userID">
+                            {% for user in Users %}
+                                <option value="{{ user.id }}">{{ user.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <br/>
+                        <label> Select Priority </label>
+                        <select class="combo form-row"  name="priority">
+                            {% for priority in priorities %}
+                                <option value="{{ priority.priorityID }}">{{ priority.PriorityName }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>    
+                    <div >
+                        <input type="submit" name="register" class="register" value="Update">
+                    </div>
+                </form>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

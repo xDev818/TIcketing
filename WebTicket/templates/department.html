@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+
+{% load static %}
+{% block title %} Contact {% endblock %}
+
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>
+          -- Department --
+        </title>
+        
+  
+    </head>
+</html>
+
+{% block content %}
+
+  <!-- Datatable plugin CSS file -->
+  <link rel="stylesheet" href=
+  "https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
+
+    <!-- jQuery library file -->
+    <script type="text/javascript" 
+    src="https://code.jquery.com/jquery-3.5.1.js">
+  </script>
+        
+
+  <!-- Datatable plugin JS library file -->
+  <script type="text/javascript" src=
+      "https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js">
+  </script>
+
+<script>
+    /* Initialization of datatable */
+    $(document).ready(function() {
+        $('#myTable').DataTable({ });
+    });
+  </script> 
+
+    <link href="{% static 'css/department.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/errormessage.css' %}" rel="stylesheet" type="text/css">
+
+    <div class="container">
+        <div style="text-align:center">
+          <h2>Department</h2>
+          {% if messagecontent == "Alert" %}
+            <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                <p><strong>Alert : </strong> {{ error_message }} </p>
+            </div>
+        {% endif %}
+        </div>
+        <div class="row">
+            <div class="column">
+            <!-- <img src="/w3images/map.jpg" style="width:100%"> --> 
+            <table id="myTable" class="table table-bordered table-sm" cellspacing="0">
+                <thead>
+                    <tr >
+                      <th class="th-sm">Name</th>
+                        <th class="th-sm">Description</th>
+                        <th class="th-sm">-</th>
+                    </tr>
+                </thead>
+                {% for department in departments %}
+                <tbody>
+                    <tr>
+                        <td>{{ department.departmentName }}</td>
+                        <td style="width:200x ; "> {{ department.description }}
+                        </td>
+                        <td>
+                            <div class="btn-group" style="width: 80px;">
+                                <div>
+                                    <a href="{% url 'loaddepartment' department.deptid %}">
+                                        <img href="" src=" {% static 'theme/assets/newupdate.png' %}" id="png" alt="User Icon" />
+                                    </a>
+                                    <a href="{% url 'deleteDepartment' department.deptid %}">
+                                        <img href="" src=" {% static 'theme/assets/delete.png' %}" id="del" alt="User Icon" />
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+            </div>
+            <div class="column">
+                <form action="{% url 'updateDepartment' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="deptid" name="deptID" 
+                    {% for i in selected_dept %}
+                        value="{{ i.deptid }}"
+                    {% endfor %}
+                    >
+                    <label for="departmentname">Department Name</label>
+                    <input type="text" id="departmentname" name="departmentname" placeholder="Department" 
+                    {% for i in selected_dept %}
+                    value="{{ i.departmentName }}"
+                    {% endfor %}
+                    required>
+                    
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" placeholder="Description" style="height:170px"
+                    required>
+                        {% for i in selected_dept %}
+                            {{ i.description}}
+                       {% endfor %}
+                    </textarea>
+
+                    <input type="submit" value="Submit">
+                    <input type="submit1" value="Delete" readonly>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

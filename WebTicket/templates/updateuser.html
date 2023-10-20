@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+ {% extends 'base.html' %}
+
+{% block title %} Register {% endblock %}
+
+{% load static %}
+
+{{ userType }}
+
+
+
+
+<head>
+    <title>
+        Register Page
+    </title>
+    
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ 
+
+</head>
+{% block content %}
+<body>
+
+<link href="{% static 'css/register.css' %}" rel="stylesheet" type="text/css">
+
+
+<!-- Load with Data -->
+{% for m in data %}
+<form id="Form" action="{%url 'updateuser' %}" method="POST">
+    {% csrf_token %}
+    <section>
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col">
+                        <div class="card card-registration my-4">
+                            <div class="row g-0">
+                                <div class="col-xl-6  d-xl-block">
+                                    <img src="{% static 'theme/assets/emp.jpg' %}"
+                                        alt="Sample photo" class="img-fluid"
+                                        style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;" />
+                                         <!-- https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img4.webp" -->
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="card-body p-md-5 text-black">
+                                        <h3 class="mb-5 text-uppercase">Update Employee Information</h3>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-outline"> 
+                                                    <label class="form-label" for="form3Example1m">Username</label>
+                                                    <input type="text" id="form3Example1m" class="form-control form-control-lg" 
+                                                    placeholder="Enter Username" 
+                                                    value="{{ m.username }}" required name="username"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="form3Example1n">Display Name</label>
+                                                    <input type="text" id="displayname" class="form-control form-control-lg" 
+                                                    placeholder="Enter Display name" 
+                                                    value="{{ m.name }}" required name="display"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-outline mb-4">            
+                                                    <label class="form-label" for="form3Example97">Email ID</label>
+                                                    <input type="text" id="form3Example97" class="form-control form-control-lg" 
+                                                    value="{{ m.email }}" placeholder="Email Address" required name="email"/>
+                                                </div> 
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="form3Example1n">Password</label>
+                                                    <input type="password" id="password" class="form-control form-control-lg" 
+                                                    value="{{ m.password }}" placeholder="Password" required name="password" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="form3Example1n">Reset Password</label>
+                                                    <input type="password" id="resetpassword" class="form-control form-control-lg" 
+                                                    value="{{ m.password }}" placeholder="Confirmed password" required/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="form3Example1n">Department</label>
+                                                    <select class="form-control select" name="depid">
+                                                        {% for d in departments %}
+                                                                <option value="{{ d.deptid }}" aria-required="true"> {{ d.departmentName }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="form3Example1n">Positions</label>
+                                                    <select class="form-control select" name="posid" >
+                                                    {% for p in positions %}
+                                                        <option value="{{ p.id }}" aria-required="true"> {{ p.positionName }}</option>
+                                                    {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="form3Example1n">User Type</label>
+                                                    <select class="form-control select" name="usertype">
+                                                    {% for type in userType %}
+                                                        <option value="{{ type.userTypeID }}" aria-required="true" > {{ type.userType }}</option>
+                                                    {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex justify-content-center pt-3" >
+                                                <button type="Submit" class="btn btn-warning btn-lg ms-2">Submit form</button>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    </section>
+</form>
+{% endfor %}
+</body>
+
+{% endblock %}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+{% load static %}
+<link href="{% static 'css/navbar.css' %}" rel="stylesheet" type="text/css">
+<!-- class="navbar navbar-expand-lg bg-light" -->
+
+<nav class="navbar navbar-expand-lg   " >
+    <!-- <div class="container-fluid   "> --> 
+                    <ul>
+                        <a class="navbar-brand" href="#">Logo Here </a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button> 
+                    </ul>  
+        <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
+            
+                {% if not data %}
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{% url 'index' %}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Something</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        </li>
+                    </ul>
+                {% else %}
+                    {% for i in data %}
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link " aria-current="page" href="{% url 'index' %}">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Something</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" href="#">
+                                Setup
+                                </a>
+                                <ul class="dropdown-menu" >
+                                    <li class="nav-item" >
+                                        <a class="nav-link" href="{% url 'loadselecteduser' %}">My Account</a>
+                                    </li>
+                                    {% if i.userType == 'Admin'  %}
+
+                                        <li class="nav-item">
+                                            <a class="dropdown-item" href="{% url 'userlist' %}">Users</a>
+                                        </li>
+                                    {% endif %}   
+                                        <li class="nav-item">
+                                            <a class="dropdown-item" href="{% url 'department' %}">Department</a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="dropdown-item" href="{% url 'position' %}">Position</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="dropdown-item" href="{% url 'userType' %}">User's Category</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="dropdown-item" href="{% url 'priority' %}">Priority</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="dropdown-item" href="{% url 'tickettype' %}">Ticket Type</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="dropdown-item" href="{% url 'tickettypestatus' %}">Ticket Category Status</a>
+                                        </li>
+                                    <li class="nav-item">
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                        <li class="nav-item">
+                                            <a class="dropdown-item" href="#">Something else here</a>
+                                        </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" >
+                                Ticket
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="dropdown-item" href="{% url 'ticket' %}">New Ticket</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="dropdown-item" href="{% url 'ticketstatus' %}"> View Ticket</a>
+                                    </li>
+                                    <li><hr class="dropdown-divider">
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'logout' %}"> Welcome {{ i.name }} Logout</a>
+                            </li>
+                        </ul>
+                    {% endfor %}
+                {% endif %}
+            
+            <!-- <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            -->
+        <!-- </div> --> 
+    <!-- </div> --> 
+    
+  </nav>
+
+
+

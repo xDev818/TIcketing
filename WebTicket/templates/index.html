@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% load static %}
+{{ struser }}
+
+
+{% block title %} Index Title {% endblock %}
+{% block meta_description %}
+ Ticketing Project  
+{% endblock %}
+
+<html lang="en">
+    <head>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="Ticketing Project" name="keywords">
+        <meta content="Ticketing Project" name="description">
+        
+        <title>
+           Index
+        </title>
+        <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+    </head>
+   
+    <body background="{% static 'theme/assets/TicketImages.png' %}">
+        
+        {% block content %}
+           <div>
+                Ralph
+           </div>
+           <div>
+                Ralph 2
+           </div>
+        {% endblock content %}
+   
+    </body>
+</html>

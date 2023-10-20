@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+
+
+{% load static %}
+<!-- load static is reference on settings STATICFILES_DIRS-->
+
+{% block title %}  {% endblock %}
+
+{% block content%}
+
+<head>
+    <title>
+        User Login
+    </title>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+</head>
+
+<body style="background:  #216fc2;">
+    <link href="{% static 'css/login.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/errormessage.css' %}" rel="stylesheet" type="text/css">
+    
+    {% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+
+
+    <div style="width: 100%; display: table; background:  #216fc2;">
+
+        <div style="display: table-row; height: 100px;">
+            <div style="width: 50%; display: table-cell; background: #216fc2;" >
+                
+            </div>
+            <div style="display: table-cell; background: #216fc2;"> 
+
+                <div class="wrapper fadeInDown"  > 
+                    <div id="formContent" >
+                        <!-- Icon -->
+                        <div class="fadeIn first">
+                            <img src="{% static 'theme/assets/login.png' %}" id="png" alt="User Icon" /> 
+                          <!-- <img src="https://www.flaticon.com/free-icons/login" id="icon" alt="User Icon" title="login icons"/> -->
+                        <!-- <a href=" " title="login icons">Login icons created by Vector Squad - Flaticon</a> -->
+                        </div>
+            
+                        <!-- Login Form -->
+                        <form action="usrlogin" method="POST" >
+                            {% csrf_token %}
+                            <label class="form-label" for="form3Example1m">Username</label>
+                            <input type="text"  id="username" class="fadeIn second" name="username" placeholder="Enter Username" required>
+                            
+                            <label class="form-label" for="form3Example1m">Password</label>
+                            <input type="password"  id="password" class="fadeIn third " name="password" placeholder="Enter Password" required>
+                            <input type="Submit" class="fadeIn fourth">
+                            {% if error_message %}
+                                <div class="alert">
+                                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                                    <strong>Warning: </strong> {{ error_message }}
+                                </div>
+                            {% endif %}
+                        </form>
+                    
+                                            <!-- Remind Passowrd -->
+                        <div id="formFooter">
+                        <a class="underlineHover" href="{% url 'register' %}">Register Here</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    
+    </div>
+</body>
+<!--
+    
+-->
+
+{% endblock %}

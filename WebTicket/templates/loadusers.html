@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{{ data }}
+{% block title %} Load Users {% endblock %}
+
+
+{% block content%}
+    <h1>
+        Load Users Page
+        {% for r in data %}
+           <div>
+            {{ r.username }}
+          </div> 
+        {% endfor %}
+    </h1>
+{% endblock %}
